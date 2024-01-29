@@ -19,19 +19,15 @@ void print(std::deque<settings> &data){
 void setup()
 {
   Serial.begin(74880);
-  uint8_t capacity = 5;                           // Объём вектора. Важно при первой загрузке. Дальше размер устанавливаеться из файла
-  std::deque<settings> deque(capacity, {0, 0}); // deque.resize(capacity);
-
+  uint8_t capacity = 5;                           // Объём контейнера. Важно при первой загрузке. Дальше размер устанавливаеться из файла
+  std::deque<settings> deque(capacity, {0, 0});
   StorageManager<std::deque<settings>> storage(deque, fileName); // <std::deque<settings>> можно не указывать
   print(deque);
   for (auto &e : deque)
     e.var1 = e.var2++;
-
-
   storage.write(deque);
-
-  deque.clear();//Очищаем вектор
-  storage.read(deque); // Читаем данные из файла в вектор
+  deque.clear();//Очищаем 
+  storage.read(deque); // Читаем данные из файла
   print(deque);
   
   // storage.deleteFile(); //удаляет свой файл с настройками

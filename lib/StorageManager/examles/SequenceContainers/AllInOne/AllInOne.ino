@@ -24,27 +24,25 @@ void print(std::CONTAINER<settings> &data){
 
 void setup()
 {
-  Serial.begin(74880);
-  uint8_t capacity = 5;                           // Объём вектора. Важно при первой загрузке. Дальше размер устанавливаеться из файла
-  std::CONTAINER<settings> CONTAINER(capacity, {0, 0}); // CONTAINER.resize(capacity);
+  Serial.begin(74880UL);
+  uint8_t capacity = 5;                           // Объём контейнера. Важно при первой загрузке. Дальше размер устанавливаеться из файла
+  std::CONTAINER<settings> CONTAINER(capacity, {0, 0}); //Инициализация контейнера и заполнение структурами с нулевыми значениями переменных
 
-  StorageManager<std::CONTAINER<settings>> storage(CONTAINER, fileName); // <std::deque<settings>> можно не указывать
+  StorageManager<std::CONTAINER<settings>> storage(CONTAINER, fileName);
   print(CONTAINER);
   for (auto &e : CONTAINER)
     e.var1 = e.var2++;
 
-
   storage.write(CONTAINER);
-
-  CONTAINER.clear();//Очищаем вектор
-  storage.read(CONTAINER); // Читаем данные из файла в вектор
+  CONTAINER.clear();//Очищаем 
+  storage.read(CONTAINER); // Читаем данные из файла в контейнер
   print(CONTAINER);
   
   // storage.deleteFile(); //удаляет свой файл с настройками
   // storage.formatFS(); //форматирует файловую систему
   // StorageManager<int>::formatFS();//форматирует файловую систему без обращений через экземпляр
 
-  delay(5000);
+  delay(5000UL);
   ESP.restart();
 }
 void loop() { yield(); }

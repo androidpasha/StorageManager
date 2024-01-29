@@ -13,8 +13,7 @@ void print(std::multimap<const char*, int> &data)
 
 void setup()
 {
-  delay(1000);
-  Serial.begin(74880);
+  Serial.begin(74880UL);
   std::multimap<const char*, int> multimap;
   StorageManager storage(multimap, fileName); // <std::CONTAINER<settings>> можно не указывать
   print(multimap);
@@ -24,7 +23,7 @@ void setup()
     "Anna",
     "Oleg"
   };
-  auto pair = std::make_pair(names[random(0,4)], (int)random(0, 10));
+  auto pair = std::make_pair(names[random(0L,4L)], static_cast<int>(random(0L,10L)));
   multimap.insert(pair);
 
   storage.write(multimap); // Пишем данные в файла
@@ -35,7 +34,7 @@ void setup()
   //storage.formatFS(); //форматирует файловую систему
   //StorageManager<int>::formatFS();//форматирует файловую систему без обращений через экземпляр
 
-  delay(5000);
+  delay(5000UL);
   ESP.restart();
 }
 void loop() { yield(); }

@@ -12,11 +12,11 @@ void print(std::set<int> &data){
 
 void setup()
 {
-  Serial.begin(74880);
+  Serial.begin(74880UL);
   std::set<int> set;
-  StorageManager storage(set, fileName); // <std::CONTAINER<settings>> можно не указывать
+  StorageManager storage(set, fileName);
   print(set);
-  set.insert(random(0, 10));
+  set.insert(static_cast<int>(random(0L,10L)));
   storage.write(set);// Пишем данные в файла
   storage.read(set); // Читаем данные из файла. Перед чтением set очищается.
   print(set);
@@ -25,7 +25,7 @@ void setup()
   //storage.formatFS(); //форматирует файловую систему
   //StorageManager<int>::formatFS();//форматирует файловую систему без обращений через экземпляр
 
-  delay(5000);
+  delay(5000UL);
   ESP.restart();
 }
 void loop() { yield(); }
