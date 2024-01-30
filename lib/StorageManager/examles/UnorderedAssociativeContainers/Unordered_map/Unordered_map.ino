@@ -1,6 +1,5 @@
-// сохранение unordered_map со стоками не работает (строки)!!! Только с типами на стеке
-
 #include <Arduino.h>
+// #define FS_t SPIFFS // LittleFS по умолчанию. Но если нужно SPIFFS то объявляемэтойстрокой
 #include "StorageManager.h"
 #include <unordered_map>
 

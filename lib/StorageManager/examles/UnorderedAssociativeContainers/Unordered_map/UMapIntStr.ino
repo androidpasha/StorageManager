@@ -7,9 +7,9 @@ const char *fileName PROGMEM = "/unordered_map.bin";
 template<typename T1, typename T2>
 void print(std::unordered_map<T1, T2> &data)
 {
-  Serial.println(F("____________unordered_map_____________"));
+  Serial.println(F("\n____________unordered_map_____________"));
   for (const auto &pair : data)
-    Serial.printf("\n %0d : %s", pair.first, pair.second);
+    Serial.printf("\n %d:%s", pair.first, pair.second);
 }
 
 void setup()
@@ -17,7 +17,7 @@ void setup()
   delay(1000UL);
   Serial.begin(74880UL);
   std::unordered_map<int, String> unordered_map;
-  StorageManager storage(unordered_map, fileName);
+  StorageManager storage(unordered_map, fileName); // <std::CONTAINER<settings>> можно не указывать
   Serial.println("\nRead from flash");
   print(unordered_map);
 
