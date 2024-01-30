@@ -28,6 +28,8 @@ public:
 
   bool read(data_t &data);
 
+  size_t size();
+
 
 private:
   const char *path;
@@ -47,9 +49,14 @@ private:
 };
 
 
-
-
-
+  template <typename data_t>
+  size_t StorageManager<data_t>::size(){
+  File file = FS_t.open(path, "r");
+  if (!file) return 0;
+  size_t size = file.size();
+  file.close();
+  return size;
+  }
 
   template <typename data_t>
   StorageManager<data_t>::StorageManager(data_t &data, const char *path){

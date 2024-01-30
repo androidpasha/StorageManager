@@ -1,4 +1,5 @@
 #include <Arduino.h>
+//#define FS_t SPIFFS
 #include "StorageManager.h"
 #include <unordered_map>
 
@@ -18,7 +19,7 @@ void setup()
   Serial.begin(74880UL);
   std::unordered_map<int, String> unordered_map;
   StorageManager storage(unordered_map, fileName);
-  Serial.println("\nRead from flash");
+  Serial.printf("\nRead from flash. File size = %d byte.\n", storage.size());
   print(unordered_map);
 
   String name[] = {"Pavel", "Anastasia", "Anna", "Oleg"};
