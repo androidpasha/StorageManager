@@ -1,34 +1,37 @@
 #include <Arduino.h>
-//#define FS_t SPIFFS
 #include "StorageManager.h"
-#include <unordered_map>
 
-const char *fileName PROGMEM = "/unordered_map.bin";
+  struct settings {// Структура, свойства(переменные) которой будем хранить в файле. Метод(print) не записываеться в файл
+  int var1 = 0;
+  int var2 = 0;
+  void print() {
+    Serial.printf("\nvar1=%d, var2=%d\n", var1, var2);
+  }
+};
 
-template<typename T1, typename T2>
-void print(std::unordered_map<T1, T2> &data)
-{
-  Serial.println(F("____________unordered_map_____________"));
-  for (const auto &pair : data)
-    Serial.printf("\n %0d : %s", pair.first, pair.second);
-}
+const char *fileName PROGMEM = "/struct.bin"; //Имя файла для хранения структуры
+settings mySettings;//Создаем экземпляр структуры
+StorageManager<settings> storage(mySettings, fileName); //Создаем экземпляр класа библиотеки с именем storage. В mySettings будет записано содержание файла fileName при его наличии
 
-void setup()
-{
-  delay(1000UL);
+
+void setup() {
   Serial.begin(74880UL);
-  std::unordered_map<int, String> unordered_map;
-  StorageManager storage(unordered_map, fileName);
-  Serial.printf("\nRead from flash. File size = %d byte.\n", storage.size());
-  print(unordered_map);
+  mySettings.print();
+  mySettings.var1++;
+  mySettings.var2++;
+  storage.write(mySettings);//Записываем обновленную структуру в файл fileName
+  settings mySettings2;
+  storage.read(mySettings2); //Читаем из файла данные в произвольную переменную. Тип должен быть одинаковым!!!
+  Serial.print("Прочитано из файла значения:");
+  mySettings.print();
+ 
+   //storage.deleteFile(); //удаляет свой файл с настройками
+   //StorageManager<int>::formatFS();//форматирует файловую систему без обращений через экземпляр
+   //storage.formatFS(); //форматирует файловую систему
 
-  String name[] = {"Pavel", "Anastasia", "Anna", "Oleg"};
-
-  for (int i = 0; i < 5; i++)
-    unordered_map[i] = name[random(0L,4L)];
-  storage.write(unordered_map); // Пишем данные в файла
-
-  delay(10000UL);
+  delay(5000UL);
   ESP.restart();
 }
-void loop() { yield(); }
+void loop() {
+  yield();
+}

@@ -19,17 +19,11 @@ class StorageManager
 {
 public:
   StorageManager(data_t &data, const char *path);
-
   bool deleteFile() const { return FS_t.remove(path); }
-  
   static bool formatFS() { return FS_t.format(); }
-
   bool write(const data_t &data) const;
-
   bool read(data_t &data);
-
-  size_t size();
-
+  size_t size() const;
 
 private:
   const char *path;
@@ -48,9 +42,10 @@ private:
   };
 };
 
+//_________Реализация методов________________
 
   template <typename data_t>
-  size_t StorageManager<data_t>::size(){
+  size_t StorageManager<data_t>::size() const{
   File file = FS_t.open(path, "r");
   if (!file) return 0;
   size_t size = file.size();
@@ -116,14 +111,7 @@ private:
   }
 
 
-
-
-
-
-
-
-
-/*
+/*РЕАЛИЗОВАННЫЕ КОНТЕЙНЕРЫ.
 Последовательные контейнеры:
                               std::vector: Динамический массив.
                               std::list: Двусвязный список.
@@ -141,7 +129,7 @@ private:
                               std::unordered_multiset: Неупорядоченное множество с возможностью дублирования элементов.
                               std::unordered_multimap: Неупорядоченное отображение с возможностью дублирования ключей.
 
-Адаптеры контейнеров:
+Адаптеры контейнеров НЕ РЕАЛИЗОВАНЫ, НЕ ТЕСТИРОВАЛИСЬ:
 std::stack: Стек, базирующийся на другом контейнере.
 std::queue: Очередь, базирующаяся на другом контейнере.
 std::priority_queue: Очередь с приоритетом, базирующаяся на другом контейнере.
